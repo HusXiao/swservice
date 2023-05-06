@@ -11,4 +11,9 @@ eureka:
       #需要注册给Eureka Server的地址，也就是将自己注册给哪一个Eureka Server
       defaultZone: http://eurekaServer13000:13000/eureka,http://eurekaServer13001:13001/eureka
 
+#需要调用的微服务名称
+provider-server:
+  ribbon:
+  #设置使用哪一种负载均衡策略类（这里使用随机策略类）
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 

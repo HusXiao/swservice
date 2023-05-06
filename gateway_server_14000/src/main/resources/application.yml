@@ -1,0 +1,23 @@
+server:
+  port: 14000
+
+spring:
+  application:
+    name: gateway-server
+  cloud:
+    gateway:
+      routes:
+      -  id: consumerService
+         uri: http://localhost:12000
+         predicates:
+           -  Path=/cart/getUserById/**
+      -  id: providerService
+         uri: http://localhost:11000
+         predicates:
+           - Path=/user/getUserById/**
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins: *
+            allowed-methods: Get, Post, Put, Delete
+            allowed-headers: *

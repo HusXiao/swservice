@@ -8,12 +8,6 @@ public class CommonResult<T> implements Serializable {
     private String message;
     private T result;
 
-    public CommonResult(Integer code, String message, T result) {
-        this.code = code;
-        this.message = message;
-        this.result = result;
-    }
-
     public Integer getCode() {
         return code;
     }
