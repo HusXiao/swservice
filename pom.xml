@@ -16,6 +16,8 @@
         <module>consumer_server_12001</module>
         <module>eureka_server_13001</module>
         <module>gateway_server_14000</module>
+        <module>config_server_15000</module>
+        <module>config_server_15001</module>
     </modules>
 
     <properties>

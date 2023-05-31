@@ -13,6 +13,8 @@
         <module name="consumer_server_12001" />
         <module name="eureka_server_13001" />
         <module name="eureka_server_13000" />
+        <module name="config_server_15001" />
+        <module name="config_server_15000" />
       </profile>
     </annotationProcessing>
   </component>

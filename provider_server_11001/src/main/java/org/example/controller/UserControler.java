@@ -5,6 +5,7 @@ import org.example.Dao.UserDao;
 import org.example.entity.CommonResult;
 import org.example.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -12,6 +13,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/user")
+@RefreshScope
 public class UserControler {
 
     @Autowired

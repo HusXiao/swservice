@@ -4,10 +4,12 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.example.Entity.CommonResult;
 import org.example.UserFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cart")
+@RefreshScope
 public class CartController{
 
     //注入Fegin接口（@EnableFeignClients自动扫描@FeignClient注解）
