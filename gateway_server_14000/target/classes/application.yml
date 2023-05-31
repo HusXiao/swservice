@@ -8,7 +8,68 @@ spring:
     gateway:
       routes:
       -  id: consumerService
-         uri: http://localhost:12000
+         uri: lb://consumer-server
          predicates:
            -  Path=/cart/getUserById/**
+         filters:
+           - RewritePath=/api/(?<remaining>.*), /$\{remaining}
+             #---------服务熔断---------#
+           - name: CircuitBreaker
+             args:
+                 name: api-service-cb
+                 fallbackUri: forward:/fallback
+                 fallbackHeaders:
+                   Content-Type: application/json
+                 statusCodes:
+                   500-599: true
+                 waitDurationInOpenState: 30s
+                 ringBufferSizeInClosedState: 100
+                 ringBufferSizeInHalfOpenState: 10
 
+      -  id: providerService
+         uri: lb://provider-server
+         predicates:
+           - Path=/user/getUserById/**
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-methods: Get, Post, Put, Delete
+
+eureka:
+  client:
+    service-url:
+      defaultZone:
+        http://eurekaServer13000:13000/eureka,http://eurekaServer13001:13001/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      service-circuit-breaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 30
+        waitDurationInOpenState: 5000
+        permittedNumberOfCallsInHalfOpenState: 3
+
+
+  bulkhead:
+    configs:
+      bulkheadConfig:
+        max-concurrent-calls: 10
+
+    instances:
+      bulkhead:
+        base-config: bulkheadConfig
+
+  ratelimiter:
+    configs:
+      ratelimitConfig:
+        limit-for-period: 5
+
+    instances:
+      ratelimiter:
+        base-config: ratelimitConfig
